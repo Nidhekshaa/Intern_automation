@@ -18,10 +18,7 @@ app.set("trust proxy", 1);
 // Middleware
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://intern-automation.vercel.app"
-    ],
+    origin: ["http://localhost:5173", "https://intern-automation.vercel.app"],
     credentials: true,
   }),
 );
@@ -62,7 +59,10 @@ app.use(cookieParser());
 // );
 
 const MongoStore = require("connect-mongo").default;
-console.log("Connect Mongo Version:", require("connect-mongo/package.json").version);
+console.log(
+  "Connect Mongo Version:",
+  require("connect-mongo/package.json").version,
+);
 
 app.use(
   session({
@@ -78,18 +78,12 @@ app.use(
 
     cookie: {
       httpOnly: true,
-      secure: true,      // true in production (Render uses HTTPS)
-      sameSite: "none",  // required for cross-origin frontend
+      secure: false, // true only for HTTPS
+      sameSite: "lax", // required for cross-origin frontend
       maxAge: 24 * 60 * 60 * 1000,
     },
-  })
+  }),
 );
-
-// app.use((req, res, next) => {
-//   console.log("Incoming:", req.method, req.url);
-//   next();
-// });
-
 
 const passport = require("passport");
 
@@ -202,7 +196,6 @@ app.post("/auth/verify-otp", async (req, res) => {
 // app.get("/api/test-session", (req, res) => {
 //   res.json(req.session);
 // });
-
 
 /* ----------------------  Admin Login  ------------------------ */
 
