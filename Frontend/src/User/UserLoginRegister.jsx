@@ -12,6 +12,8 @@ axios.defaults.withCredentials = true;
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
 
   // ================= REGISTER STATE =================
   const [registerData, setRegisterData] = useState({
@@ -34,7 +36,7 @@ const LoginRegister = () => {
       const res = await axios.post(
         `${API_URL}/api/auth/register`,
         registerData,
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       alert(res.data.msg);
@@ -49,14 +51,12 @@ const LoginRegister = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        `${API_URL}/api/auth/login`,
-        loginData,
-        { withCredentials: true }
-      );
+      const res = await axios.post(`${API_URL}/api/auth/login`, loginData, {
+        withCredentials: true,
+      });
 
       alert(res.data.msg);
-      
+
       navigate("/user-dashboard");
     } catch (err) {
       alert(err.response?.data?.msg || "Login failed");
@@ -73,7 +73,7 @@ const LoginRegister = () => {
 
             <div className="social-icons">
               <a href={`${API_URL}/auth/google`} className="icon">
-                <i className="fa-brands fa-google"></i>
+                <i className="fa-brands fa-google-plus-g"></i>
               </a>
               <a href={`${API_URL}/auth/facebook`} className="icon">
                 <i className="fa-brands fa-facebook-f"></i>
@@ -84,7 +84,7 @@ const LoginRegister = () => {
             </div>
 
             <span>or</span>
-
+            <div className="password-options">
             <input
               type="text"
               placeholder="Name"
@@ -106,7 +106,7 @@ const LoginRegister = () => {
             />
 
             <input
-              type="password"
+              type={showRegisterPassword ? "text" : "password"}
               placeholder="Password"
               value={registerData.password}
               onChange={(e) =>
@@ -117,6 +117,16 @@ const LoginRegister = () => {
               }
               required
             />
+
+            <label className="checkbox-container">
+                <input
+                  type="checkbox"
+                  checked={showLoginPassword}
+                  onChange={() => setShowLoginPassword(!showLoginPassword)}
+                />
+                <span>Show Password</span>
+              </label>
+            </div>
 
             <button type="submit">Sign Up</button>
           </form>
@@ -129,7 +139,7 @@ const LoginRegister = () => {
 
             <div className="social-icons">
               <a href={`${API_URL}/auth/google`} className="icon">
-                <i className="fa-brands fa-google"></i>
+                <i className="fa-brands fa-google-plus-g"></i>
               </a>
               <a href={`${API_URL}/auth/facebook`} className="icon">
                 <i className="fa-brands fa-facebook-f"></i>
@@ -140,7 +150,7 @@ const LoginRegister = () => {
             </div>
 
             <span>or</span>
-
+            <div className="password-options">
             <input
               type="email"
               placeholder="Email"
@@ -152,7 +162,7 @@ const LoginRegister = () => {
             />
 
             <input
-              type="password"
+              type={showLoginPassword ? "text" : "password"}
               placeholder="Password"
               value={loginData.password}
               onChange={(e) =>
@@ -161,6 +171,15 @@ const LoginRegister = () => {
               required
             />
 
+            <label className="checkbox-container">
+                <input
+                  type="checkbox"
+                  checked={showLoginPassword}
+                  onChange={() => setShowLoginPassword(!showLoginPassword)}
+                />
+                <span>Show Password</span>
+              </label>
+            </div>
             <a href="/forgot-password" className="forgot-password-link">
               Forgot your password?
             </a>
