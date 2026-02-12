@@ -79,8 +79,8 @@ app.use(
 
     cookie: {
       httpOnly: true,
-      secure: false, // true only for HTTPS
-      sameSite: "lax", // required for cross-origin frontend
+      secure: true, // true only for HTTPS
+      sameSite: "none", // required for cross-origin frontend
       maxAge: 24 * 60 * 60 * 1000,
     },
   }),
@@ -147,6 +147,7 @@ app.post("/auth/reset-password", async (req, res) => {
 /* ----------------------  OTP Send and Verify  ------------------------ */
 
 const crypto = require("crypto");
+const { none } = require("./middleware/uploadCertificate");
 app.post("/auth/send-otp", async (req, res) => {
   const { email } = req.body;
 
