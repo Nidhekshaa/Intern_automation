@@ -38,11 +38,11 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false, // true only for HTTPS
-      sameSite: "lax",
+      secure: true,       // ✅ MUST be true for HTTPS (Render/Vercel)
+      sameSite: "none",   // ✅ MUST be none for cross-domain
       maxAge: 24 * 60 * 60 * 1000,
     },
-  }),
+  })
 );
 
 // app.use((req, res, next) => {
