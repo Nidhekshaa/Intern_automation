@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../styles/ApplicationDetails.css";
+import Swal from "sweetalert2";
 import config from "../config";
 
 const API = `${config.API_URL}/api/admin`;
@@ -17,7 +18,9 @@ const ApplicationDetails = () => {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [offerLetter, setOfferLetter] = useState(null);
   const [certificate, setCertificate] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
   useEffect(() => {
     fetchData();
   }, []);
@@ -25,13 +28,22 @@ const ApplicationDetails = () => {
   // ✅ Only ONE fetchData function
   const fetchData = async () => {
     try {
+      setLoading(true);
+
       const res = await axios.get(`${API}/applications/${id}`, {
         withCredentials: true,
       });
+
       setApp(res.data);
       setStatus(res.data.status);
     } catch (err) {
-      console.error("Error fetching application:", err);
+      if (err.response && err.response.status === 401) {
+        setSessionExpired(true);
+      } else {
+        console.error("Error fetching application:", err);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,21 +62,49 @@ const ApplicationDetails = () => {
 
   const scheduleInterview = async () => {
     if (!dateTime) {
-      alert("Please select date and time");
+      Swal.fire({
+        icon: "warning",
+        title: "Please select date and time",
+      });
       return;
     }
 
     try {
+      setActionLoading(true);
+
+      Swal.fire({
+        title: "Scheduling Interview...",
+        text: "Kindly wait for a few seconds",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
       await axios.post(
         `${API}/applications/${id}/schedule`,
         { dateTime },
         { withCredentials: true },
       );
 
+      Swal.close();
+
+      Swal.fire({
+        icon: "success",
+        title: "Interview Scheduled 🎉",
+      });
+
       setShowInterviewModal(false);
-      fetchData();
+      await fetchData();
     } catch (err) {
+      Swal.close();
+      Swal.fire({
+        icon: "error",
+        title: "Failed to schedule interview",
+      });
       console.error("Error scheduling interview:", err);
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -97,6 +137,22 @@ const ApplicationDetails = () => {
     setCertificate(null);
     fetchData();
   };
+
+  if (sessionExpired) {
+    return (
+      <div className="session-expired-container">
+        <div className="session-card">
+          <h2>🔒 Session Expired</h2>
+          <p>Your admin session has expired.</p>
+          <p>Please login again to continue.</p>
+
+          <button onClick={() => (window.location.href = "/admin-login")}>
+            Login Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!app) return <p>Loading...</p>;
 

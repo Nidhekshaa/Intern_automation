@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-exports.sendMailinterview = async (to, subject, html) => {
+exports.sendMailinterview = async (to, subject, html, attachments=[]) => {
    try {
   await transporter.sendMail({
     from: `"Orchivis Intern Hub" <${process.env.ADMIN_EMAIL}>`,

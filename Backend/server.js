@@ -26,11 +26,48 @@ app.use(
 );
 
 const session = require("express-session");
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.set("trust proxy", 1);   // ⭐⭐⭐ ADD THIS
+// app.use(express.json());
+// app.use(cookieParser());
+
+// app.set("trust proxy", 1);   // ⭐⭐⭐ ADD THIS
+
+// app.use(
+//   session({
+//     name: "admin.sid",
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       httpOnly: true,
+//       secure: true,
+//       sameSite: "none",
+//       maxAge: 24 * 60 * 60 * 1000,
+//     },
+//   })
+// );
+
+// app.use(
+//   session({
+//     name: "admin.sid",
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       httpOnly: true,
+//       secure: false, // true only for HTTPS
+//       sameSite: "lax",
+//       maxAge: 24 * 60 * 60 * 1000,
+//     },
+//   }),
+// );
+
+const MongoStore = require("connect-mongo");
+
+app.set("trust proxy", 1);
 
 app.use(
   session({
@@ -38,6 +75,9 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+    }),
     cookie: {
       httpOnly: true,
       secure: true,
@@ -46,6 +86,7 @@ app.use(
     },
   })
 );
+
 
 // app.use((req, res, next) => {
 //   console.log("Incoming:", req.method, req.url);
