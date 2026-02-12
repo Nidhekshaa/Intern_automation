@@ -75,18 +75,20 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
+      collectionName: "sessions",
     }),
+
     cookie: {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: true,      // true in production (Render uses HTTPS)
+      sameSite: "none",  // required for cross-origin frontend
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
-
 
 // app.use((req, res, next) => {
 //   console.log("Incoming:", req.method, req.url);
