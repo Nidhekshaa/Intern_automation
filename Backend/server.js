@@ -26,9 +26,11 @@ app.use(
 );
 
 const session = require("express-session");
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cookieParser());
+
+app.set("trust proxy", 1);   // ⭐⭐⭐ ADD THIS
 
 app.use(
   session({
@@ -38,8 +40,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true,       // ✅ MUST be true for HTTPS (Render/Vercel)
-      sameSite: "none",   // ✅ MUST be none for cross-domain
+      secure: true,
+      sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
