@@ -14,6 +14,7 @@ const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 
+app.set("trust proxy", 1);
 // Middleware
 app.use(
   cors({
@@ -29,11 +30,6 @@ const session = require("express-session");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-// app.use(express.json());
-// app.use(cookieParser());
-
-// app.set("trust proxy", 1);   // ⭐⭐⭐ ADD THIS
 
 // app.use(
 //   session({
