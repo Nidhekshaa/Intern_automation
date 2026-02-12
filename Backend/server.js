@@ -65,7 +65,7 @@ app.use(cookieParser());
 //   }),
 // );
 
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo").default;
 console.log("Connect Mongo Version:", require("connect-mongo/package.json").version);
 
 app.set("trust proxy", 1);
