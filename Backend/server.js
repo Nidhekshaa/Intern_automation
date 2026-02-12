@@ -18,7 +18,8 @@ app.set("trust proxy", 1);
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://intern-automation.vercel.app"],
+    origin: ["http://localhost:5173", "https://intern-automation.vercel.app",
+      "https://intern-automation-git-main-nidhekshaas-projects.vercel.app",],
     credentials: true,
   }),
 );
