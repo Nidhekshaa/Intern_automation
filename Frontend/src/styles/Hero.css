@@ -1,0 +1,256 @@
+/* ===== Global Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== Page Background (diagonal gradient like screenshot) ===== */
+.page {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #f4f6fb 0%,
+    #e7eaf2 50%,
+    #dde1ea 100%
+  );
+  
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 30px 70px;
+}
+
+.logo {
+  height: 55px;
+}
+
+/* links */
+.nav-links {
+  display: flex;
+  gap: 60px;
+}
+
+.nav-links a {
+  color: #a020f0;
+  font-weight: 600;
+  font-size: 18px;
+  text-decoration: underline;
+  transition: 0.2s;
+}
+
+.nav-links a:hover {
+  opacity: 0.7;
+}
+
+/* ================= HERO LAYOUT ================= */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  padding: 30px 70px;
+}
+
+/* Left */
+.hero-text {
+  flex: 1;
+}
+
+/* Big heading */
+.hero-text h1 {
+  font-size: 52px;
+  font-weight: 650;
+  font-style: italic;
+  line-height: 1.02;
+  margin-bottom: 25px;
+  color: #000;
+}
+
+/* Subtitle */
+.hero-text p {
+  font-size: 22px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 40px;
+  max-width: 650px;
+}
+
+/* Buttons container */
+.hero-buttons {
+  display: flex;
+  gap: 25px;
+}
+
+/* Primary button (purple gradient) */
+.btn-primary {
+  background: linear-gradient(90deg, #7b2cff, #c026d3);
+  color: white;
+  border: none;
+  padding: 18px 36px;
+  border-radius: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(123, 44, 255, 0.3);
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* Outline button */
+.btn-outline {
+  background: transparent;
+  border: 2px solid #a020f0;
+  color: #a020f0;
+  padding: 16px 36px;
+  border-radius: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-outline:hover {
+  background: #a020f0;
+  color: white;
+}
+
+/* Right image */
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 1000px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-text h1 {
+    font-size: 52px;
+  }
+}
+
+
+/* ================= MODAL ================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.hero-modal {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 350px;
+  text-align: center;
+  position: relative;
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.hero-modal h2 {
+  margin-bottom: 25px;
+}
+
+/* Role buttons */
+.role-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.role-btn {
+  padding: 12px 26px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.role-btn.user {
+  background: linear-gradient(90deg, #7b2cff, #c026d3);
+  color: white;
+}
+
+.role-btn.admin {
+  background: #111827;
+  color: white;
+}
+
+/* Close */
+.close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.thought-section {
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  padding: 24px 30px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  max-width: 700px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.thought-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.thought-quote {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #334155;
+  margin-bottom: 10px;
+}
+
+.thought-description {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+}

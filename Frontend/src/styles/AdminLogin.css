@@ -1,0 +1,95 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f6fa;
+}
+
+.adminlogin-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.adminlogin-left, .adminlogin-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adminlogin-left {
+  background-color: #ffffff;
+}
+
+.adminlogin-img {
+  max-width: 80%;
+  height: auto;
+}
+
+.adminlogin-right {
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 0 50px;
+}
+
+.adminlogin-right h2 {
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.adminlogin-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.adminlogin-form input {
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #dcdde1;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.adminlogin-form input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.forgot {
+  font-size: 14px;
+  text-decoration: none;
+  color: #3498db;
+  margin-bottom: 20px;
+  align-self: flex-end;
+}
+
+.adminlogin-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.adminlogin-form button:hover {
+  background-color: #2980b9;
+}
+
+@media (max-width: 900px) {
+  .adminlogin-container {
+    flex-direction: column;
+  }
+
+  .adminlogin-left, .adminlogin-right {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .adminlogin-img {
+    max-width: 90%;
+    margin-bottom: 20px;
+  }
+}
