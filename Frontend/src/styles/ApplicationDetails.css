@@ -271,9 +271,81 @@ select:focus {
 .actions button:nth-child(3) { background-color: #ef4444; color: #fff; }
 .actions button:nth-child(4) { background-color: #fbbf24; color: #fff; }
 
-/* Responsive */
+/* ================= MOBILE RESPONSIVE ================= */
+
 @media (max-width: 768px) {
+
+  .application-details {
+    margin: 20px 10px;
+    padding: 10px;
+  }
+
+  .application-details h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  /* Cards */
+  .card {
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+
+  .card h3 {
+    font-size: 18px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+
+  /* Buttons Stack */
   .actions {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions button {
+    width: 100%;
+    min-width: unset;
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  /* Back button full width */
+  .back-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Timeline */
+  .card ul li {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  /* Select dropdown */
+  select {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* Modal */
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .modal-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .modal-content input[type="datetime-local"] {
+    font-size: 0.9rem;
+  }
+
+  .modal-content button {
+    width: 100%;
+    margin: 6px 0;
   }
 }

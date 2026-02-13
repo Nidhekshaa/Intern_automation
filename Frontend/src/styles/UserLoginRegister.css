@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 .UserLoginRegister {
-    height: 100vh;
+    min-height: 100vh;   /* allow content to grow */
     display: flex;
     justify-content: center;
     align-items: center;
     background: #f4f4f6;
+    padding: 20px;       /* prevent edge cutting */
 }
 
 /* ================= Container ================= */
@@ -285,4 +286,80 @@
         opacity: 1;
         transform: translateX(100%);
     }
+}
+
+/* ================= Mobile Responsive ================= */
+
+@media (max-width: 768px) {
+
+  .container {
+    width: 95%;
+    min-height: 600px;
+    padding: 15px;
+    border-radius: 20px;
+  }
+
+  /* Make form full width */
+  .form-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .sign-in,
+  .sign-up {
+    left: 0;
+    width: 100%;
+  }
+
+  /* Stack forms vertically */
+  .container form {
+    padding: 20px;
+    height: auto;
+  }
+
+  .container input {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .container button {
+    width: 100%;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  /* Hide toggle animation section on mobile */
+  .toggle-container {
+    display: none;
+  }
+
+  /* Adjust social icons */
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .social-icons a {
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+  }
+
+  /* Forgot password alignment */
+  .forgot-password-link {
+    text-align: center;
+    font-size: 0.85rem;
+  }
+
+  /* Checkbox */
+  .checkbox-container {
+    justify-content: center;
+    padding: 5px 0;
+  }
+
 }
