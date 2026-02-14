@@ -29,20 +29,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// app.use(
-//   session({
-//     name: "admin.sid",
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       httpOnly: true,
-//       secure: true,
-//       sameSite: "none",
-//       maxAge: 24 * 60 * 60 * 1000,
-//     },
-//   })
-// );
+app.use(
+  session({
+    name: "admin.sid",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
+);
 
 // app.use(
 //   session({
