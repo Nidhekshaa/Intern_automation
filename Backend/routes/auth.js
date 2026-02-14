@@ -57,17 +57,20 @@ router.post("/login", async (req, res) => {
     }
 
     // ✅ CREATE JWT
-    const token = jwt.sign(
-      { id: user._id },
-      JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
 
     // ✅ SET COOKIE
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   sameSite: "lax",   // works on localhost
+    //   secure: false,    // must be false for http
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
+
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax",   // works on localhost
-      secure: false,    // must be false for http
+      sameSite: "none", // ✅ required for cross-origin
+      secure: true, // ✅ required for HTTPS
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -80,10 +83,15 @@ router.post("/login", async (req, res) => {
 
 // ================= LOGOUT =================
 router.post("/logout", (req, res) => {
+  // res.clearCookie("token", {
+  //   httpOnly: true,
+  //   sameSite: "lax",
+  //   secure: false,
+  // });
   res.clearCookie("token", {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    sameSite: "none",
+    secure: true,
   });
 
   res.json({ msg: "Logged out" });
