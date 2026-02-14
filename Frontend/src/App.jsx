@@ -10,12 +10,30 @@ import AdminLogin from "./Admin/AdminLogin.jsx";
 import AdminDashboard from "./Admin/AdminDashboard";
 import ApplicationDetails from "./Admin/ApplicationDetails.jsx";
 
-import UserLogin from "./User/UserLoginRegister.jsx";
+import UserLogin from "./User/Login.jsx"
+import UserRegister from "./User/Register.jsx"
+import UserLoginRegister from "./User/UserLoginRegister.jsx";
 import UserDashboard from "./User/UserDashboard.jsx";
 import UpdateProfile from "./User/UpdateProfile.jsx";
 import ApplicationStatus from "./User/ApplicationStatus.jsx";
 
+import { useEffect, useState } from "react";
 function App() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+    const handleResize = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    handleResize(); // run once on mount
+    mediaQuery.addEventListener("change", handleResize);
+
+    return () => mediaQuery.removeEventListener("change", handleResize);
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -28,10 +46,19 @@ function App() {
 
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/applications/:id" element={<ApplicationDetails />} />
 
-        <Route path="/user-login" element={<UserLogin />} />
+        {!isMobile && (
+        <Route path="/user-login" element={<UserLoginRegister />} />
+      )}
+
+      {/* ✅ Mobile Version */}
+      {isMobile && (
+        <>
+          <Route path="/user-login" element={<UserLogin />} />
+          <Route path="/user-register" element={<UserRegister />} />
+        </>
+      )}
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/update-profile" element={<UpdateProfile />} />
         <Route path="/application-status" element={<ApplicationStatus />} />

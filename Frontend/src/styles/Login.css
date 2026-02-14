@@ -1,0 +1,9 @@
+.login-title {
+    color: #512da8;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 15px;
+    cursor: pointer;
+}
