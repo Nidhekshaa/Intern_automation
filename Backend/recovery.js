@@ -11,12 +11,15 @@ const router = express.Router();
    CREATE MAIL TRANSPORTER ONCE (better perf)
 ========================================= */
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // true for 465
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 });
+
 /* =========================================
    SEND OTP ROUTE (SECURE)
 ========================================= */
@@ -24,14 +27,12 @@ router.post("/auth/send-otp", async (req, res) => {
   try {
     const { email } = req.body;
 
-    if (!email)
-      return res.status(400).json({ message: "Email required" });
+    if (!email) return res.status(400).json({ message: "Email required" });
 
     const user = await User.findOne({ email });
 
     // Don't reveal if user exists (security best practice)
-    if (!user)
-      return res.json({ message: "If email exists, OTP sent" });
+    if (!user) return res.json({ message: "If email exists, OTP sent" });
     /* =============================
        GENERATE OTP IN BACKEND ONLY
     ============================= */
