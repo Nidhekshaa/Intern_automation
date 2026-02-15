@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
 const nodemailer = require("nodemailer");
+const crypto = require("crypto"); 
+const { none } = require("./middleware/uploadCertificate");
 
 const profileRoutes = require("./routes/profile");
 const User = require("./models/User");
@@ -104,7 +106,7 @@ app.use("/api", contactRoutes);
 /* ----------------------  User Login/Register  ------------------------ */
 app.use("/api/auth", require("./routes/auth"));
 
-/* ----------------------  Password Recovery  ------------------------ */
+/* ----------------------  Password Recovery (OTP Send) ------------------------ */
 app.use("/", recoveryRoutes);
 
 /* ----------------------  ResetPassword Login  ------------------------ */
@@ -128,42 +130,6 @@ app.post("/auth/reset-password", async (req, res) => {
   await user.save();
 
   res.json({ message: "Password updated successfully" });
-});
-
-/* ----------------------  OTP Send and Verify  ------------------------ */
-
-const crypto = require("crypto");
-const { none } = require("./middleware/uploadCertificate");
-app.post("/auth/send-otp", async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    if (!email)
-      return res.status(400).json({ message: "Email required" });
-
-    const user = await User.findOne({ email });
-    if (!user)
-      return res.status(404).json({ message: "User not found" });
-
-    const otp = crypto.randomInt(100000, 999999).toString();
-
-    user.otp = await bcrypt.hash(otp, 10);
-    user.otpExpiry = Date.now() + 60 * 1000;
-
-    await user.save();
-
-    await transporter.sendMail({
-      to: email,
-      subject: "Password Reset OTP",
-      text: `Your OTP is ${otp}. Valid for 60 seconds.`,
-    });
-
-    res.json({ message: "OTP sent" });
-
-  } catch (error) {
-    console.error("SEND OTP ERROR:", error);
-    res.status(500).json({ error: error.message });
-  }
 });
 
 /* ----------------------  OTP Verify  ------------------------ */
