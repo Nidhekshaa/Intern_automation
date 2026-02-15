@@ -59,6 +59,9 @@ const Register = () => {
           <input
             type="text"
             placeholder="Name"
+            id="name"
+            name="name"
+            autoComplete="name"
             value={registerData.name}
             onChange={(e) =>
               setRegisterData({ ...registerData, name: e.target.value })
@@ -69,6 +72,9 @@ const Register = () => {
           <input
             type="email"
             placeholder="Email"
+            id="email"
+            name="email"
+            autoComplete="email"
             value={registerData.email}
             onChange={(e) =>
               setRegisterData({ ...registerData, email: e.target.value })
@@ -79,6 +85,9 @@ const Register = () => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
+            id="password"
+            name="password"
+            autoComplete="new-password"
             value={registerData.password}
             onChange={(e) =>
               setRegisterData({

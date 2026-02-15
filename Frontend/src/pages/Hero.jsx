@@ -14,7 +14,7 @@ function Hero() {
       {/* ================= NAVBAR ================= */}
       <nav className="navbar">
         <div className="nav-left">
-          <img src={logo} alt="Orchivis" className="logo" />
+          <img src={logo} loading="lazy" alt="Orchivis" className="logo" />
         </div>
 
         <div className="nav-links">

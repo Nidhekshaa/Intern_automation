@@ -88,6 +88,9 @@ const LoginRegister = () => {
             <input
               type="text"
               placeholder="Name"
+              id="name"
+              name="name"
+              autoComplete="name"
               value={registerData.name}
               onChange={(e) =>
                 setRegisterData({ ...registerData, name: e.target.value })
@@ -98,6 +101,9 @@ const LoginRegister = () => {
             <input
               type="email"
               placeholder="Email"
+              id="email"
+              name="email"
+              autoComplete="email"
               value={registerData.email}
               onChange={(e) =>
                 setRegisterData({ ...registerData, email: e.target.value })
@@ -108,6 +114,9 @@ const LoginRegister = () => {
             <input
               type={showRegisterPassword ? "text" : "password"}
               placeholder="Password"
+              id="password"
+              name="password"
+              autoComplete="new-password"
               value={registerData.password}
               onChange={(e) =>
                 setRegisterData({
@@ -154,6 +163,9 @@ const LoginRegister = () => {
             <input
               type="email"
               placeholder="Email"
+              id="email"
+              name="email"
+              autoComplete="email"
               value={loginData.email}
               onChange={(e) =>
                 setLoginData({ ...loginData, email: e.target.value })
@@ -164,6 +176,9 @@ const LoginRegister = () => {
             <input
               type={showLoginPassword ? "text" : "password"}
               placeholder="Password"
+              id="password"
+              name="password"
+              autoComplete="current-password"
               value={loginData.password}
               onChange={(e) =>
                 setLoginData({ ...loginData, password: e.target.value })

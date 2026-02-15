@@ -291,7 +291,7 @@
 
   .hero-text h1 {
     font-size: 32px;
-    line-height: 20px;
+    line-height: 1.02;
   }
 
   .hero-text p {
@@ -343,12 +343,5 @@
     padding: 30px 20px;
   }
 
-  .role-buttons {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .role-btn {
-    width: 100%;
-  }
+  
 }
