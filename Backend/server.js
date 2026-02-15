@@ -5,6 +5,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
+const nodemailer = require("nodemailer");
 
 const profileRoutes = require("./routes/profile");
 const User = require("./models/User");
@@ -134,25 +135,35 @@ app.post("/auth/reset-password", async (req, res) => {
 const crypto = require("crypto");
 const { none } = require("./middleware/uploadCertificate");
 app.post("/auth/send-otp", async (req, res) => {
-  const { email } = req.body;
+  try {
+    const { email } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ message: "User not found" });
+    if (!email)
+      return res.status(400).json({ message: "Email required" });
 
-  const otp = crypto.randomInt(100000, 999999).toString();
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(404).json({ message: "User not found" });
 
-  user.otp = await bcrypt.hash(otp, 10);
-  user.otpExpiry = Date.now() + 60 * 1000; // 60 seconds
+    const otp = crypto.randomInt(100000, 999999).toString();
 
-  await user.save();
+    user.otp = await bcrypt.hash(otp, 10);
+    user.otpExpiry = Date.now() + 60 * 1000;
 
-  await transporter.sendMail({
-    to: email,
-    subject: "Password Reset OTP",
-    text: `Your OTP is ${otp}. Valid for 60 seconds.`,
-  });
+    await user.save();
 
-  res.json({ message: "OTP sent" });
+    await transporter.sendMail({
+      to: email,
+      subject: "Password Reset OTP",
+      text: `Your OTP is ${otp}. Valid for 60 seconds.`,
+    });
+
+    res.json({ message: "OTP sent" });
+
+  } catch (error) {
+    console.error("SEND OTP ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 /* ----------------------  OTP Verify  ------------------------ */
