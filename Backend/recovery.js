@@ -67,4 +67,14 @@ router.post("/auth/send-otp", async (req, res) => {
   }
 });
 
+router.get("/test-email", async (req, res) => {
+  try {
+    await transporter.verify();
+    res.send("Email transporter working");
+  } catch (err) {
+    console.error("Transporter Error:", err);
+    res.status(500).send(err.message);
+  }
+});
+
 module.exports = router;
