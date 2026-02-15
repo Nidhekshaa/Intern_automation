@@ -42,19 +42,17 @@ export default function ResetPassword() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `${API_URL}/auth/reset-password`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            token,
-            newPassword: password,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/auth/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // ✅ IMPORTANT
+        body: JSON.stringify({
+          token,
+          newPassword: password,
+        }),
+      });
 
       const data = await response.json();
 
@@ -99,11 +97,7 @@ export default function ResetPassword() {
             required
           />
 
-          <button
-            type="submit"
-            className="reset-button"
-            disabled={loading}
-          >
+          <button type="submit" className="reset-button" disabled={loading}>
             {loading ? "Updating..." : "Reset Password"}
           </button>
         </form>

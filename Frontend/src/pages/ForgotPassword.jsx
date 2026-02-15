@@ -29,7 +29,12 @@ export default function ForgotPassword() {
   const sendOtp = async () => {
     try {
       setError("");
-      await axios.post(`${API_URL}/auth/send-otp`, { email });
+      await axios.post(
+        `${API_URL}/auth/send-otp`,
+        { email },
+        { withCredentials: true },
+      );
+
       startTimer();
       alert("OTP sent");
     } catch (err) {
@@ -64,10 +69,16 @@ export default function ForgotPassword() {
   const verifyOtp = async () => {
     try {
       setError("");
-      const res = await axios.post(`${API_URL}/auth/verify-otp`, {
-        email,
-        otp,
-      });
+      const res = await axios.post(
+        `${API_URL}/auth/verify-otp`,
+        {
+          email,
+          otp,
+        },
+        {
+          withCredentials: true,
+        },
+      );
 
       navigate(`/reset-password?token=${res.data.token}`);
     } catch (err) {
