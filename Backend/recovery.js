@@ -29,6 +29,8 @@ const transporter = nodemailer.createTransport({
 router.post("/auth/send-otp", async (req, res) => {
   try {
     const { email } = req.body;
+    console.log("USER:", process.env.SMTP_USER);
+    console.log("PASS:", process.env.SMTP_PASS);
 
     if (!email) return res.status(400).json({ message: "Email required" });
 
