@@ -358,8 +358,8 @@
 
   /* Checkbox */
   .checkbox-container {
-    justify-content: center;
-    padding: 5px 0;
+    justify-content: left;
+    padding: 0px 0px 0px 15px;
   }
 
 }

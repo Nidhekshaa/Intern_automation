@@ -13,7 +13,7 @@
 
 .admin-header h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
   color: #111;
 }
@@ -341,37 +341,61 @@ select {
 .session-card button:hover {
   background: #357abd;
 }
+/* =====================================
+   📱 MOBILE RESPONSIVE DESIGN
+===================================== */
 
-/* Responsive Table */
+/* Mobile */
 @media (max-width: 768px) {
-  .admin-table {
-    font-size: 13px;
+
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-title {
+    font-size: 20px;
+  }
+
+  .admin-subtitle {
+    font-size: 14px;
+  }
+
+  .logout-btn {
+    align-self: flex-start;
+  }
+
+  .admin-cards {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .admin-table th,
   .admin-table td {
+    font-size: 13px;
     padding: 10px;
   }
 
-  .admin-table button {
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-
   .pagination {
-    flex-wrap: wrap;
+    gap: 5px;
   }
 
   .pagination button {
-    padding: 6px 10px;
-    font-size: 13px;
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .admin-cards {
+    grid-template-columns: 1fr;
   }
 
   .admin-dashboard {
-    padding: 20px;
+    padding: 15px;
   }
 
   .admin-title {
-    font-size: 1.8rem;
+    font-size: 18px;
   }
 }

@@ -32,20 +32,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// app.use(
-//   session({
-//     name: "admin.sid",
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       httpOnly: true,
-//       secure: false, // true only for HTTPS
-//       sameSite: "lax",
-//       maxAge: 24 * 60 * 60 * 1000,
-//     },
-//   }),
-// );
+app.use(
+  session({
+    name: "admin.sid",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, // true only for HTTPS
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  }),
+);
 
 const MongoStore = require("connect-mongo").default;
 console.log(
@@ -53,26 +53,26 @@ console.log(
   require("connect-mongo/package.json").version,
 );
 
-app.use(
-  session({
-    name: "admin.sid",
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+// app.use(
+//   session({
+//     name: "admin.sid",
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
 
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI,
-      collectionName: "sessions",
-    }),
+//     store: MongoStore.create({
+//       mongoUrl: process.env.MONGO_URI,
+//       collectionName: "sessions",
+//     }),
 
-    cookie: {
-      httpOnly: true,
-      secure: true, // true only for HTTPS
-      sameSite: "none", // required for cross-origin frontend
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  }),
-);
+//     cookie: {
+//       httpOnly: true,
+//       secure: true, // true only for HTTPS
+//       sameSite: "none", // required for cross-origin frontend
+//       maxAge: 7 * 24 * 60 * 60 * 1000,
+//     },
+//   }),
+// );
 
 const passport = require("passport");
 
