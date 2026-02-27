@@ -80,39 +80,47 @@ exports.approveApplication = async (req, res) => {
   try {
     const app = await Application.findById(req.params.id).populate("user");
 
-    const file = req.files?.offerLetter?.[0];
-
-    if (!file) {
-      return res.status(400).json({ message: "Offer letter PDF required" });
+    if (!app) {
+      return res.status(404).json({ message: "Application not found" });
     }
 
-    const filePath = path.join(__dirname, "..", "uploads/OfferLetters", file.filename);
-
     app.status = "Approved";
-    app.offerLetter = file.filename;
-    app.timeline.push({ status: "Approved", date: new Date() });
+
+    // If file uploaded
+    const file = req.files?.offerLetter?.[0];
+    if (file) {
+      app.offerLetter = file.path;
+    }
+
+    app.timeline.push({
+      status: "Approved",
+      date: new Date(),
+    });
+
     await app.save();
-
+    // ✅ SEND MAIL
     const mailContent = `
-      <h2>Congratulations ${app.user.name}!</h2>
+      <h2>Congratulations ${app.user.name}</h2>
       <p>Your internship application has been approved.</p>
+      <p>Welcome to the team!</p>
+      
     `;
-
     await sendMailinterview(
       app.user.email,
-      "Offer Letter",
+      "Internship Approved 🎉",
       mailContent,
       [
         {
           filename: file.filename,
-          path: filePath,
+          path: file.path,
         },
       ]
     );
 
-    res.json({ message: "Approved + offer letter sent", app });
+    res.json({ message: "Application approved & mail sent" });
+
   } catch (err) {
-    console.error(err);
+    console.error("APPROVE ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -123,19 +131,22 @@ exports.rejectApplication = async (req, res) => {
     const app = await Application.findById(req.params.id).populate("user");
 
     app.status = "Rejected";
-    app.timeline.push({ status: "Rejected", date: new Date() });
     await app.save();
 
-    const mailContent = `
-      <h2>Sorry ${app.user.name}</h2>
-      <p>Your internship application has been rejected.</p>
-    `;
+    await sendMailinterview(
+      app.user.email,
+      "Internship Application Update",
+      `
+      <h3>Hello ${app.user.name}</h3>
+      <p>We regret to inform you that your application was not selected.</p>
+      <p>Thank you for applying.</p>
+      `
+    );
 
-    await sendMailinterview(app.user.email, "Application Rejected", mailContent);
+    res.json({ message: "Rejected & mail sent" });
 
-    res.json({ message: "Rejected", app });
   } catch (err) {
-    console.error(err);
+    console.error("REJECT ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -146,15 +157,14 @@ exports.completeApplication = async (req, res) => {
     const app = await Application.findById(req.params.id).populate("user");
 
     const file = req.files?.certificate?.[0];
-
+    if (file) {
+      app.certificate = file.path;
+    }
     if (!file) {
       return res.status(400).json({ message: "Certificate PDF required" });
     }
 
-    const filePath = path.join(__dirname, "..", "uploads/Certificates", file.filename);
-
-    app.status = "Completed";
-    app.certificate = file.filename;
+    app.status = "Completed";    
 
     app.timeline.push({
       status: "Completed",
@@ -176,7 +186,7 @@ exports.completeApplication = async (req, res) => {
       [
         {
           filename: file.filename,
-          path: filePath,
+          path: file.path,
         },
       ]
     );

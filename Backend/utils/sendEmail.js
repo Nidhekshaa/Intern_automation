@@ -13,11 +13,14 @@ const sendMail = async (mailOptions) => {
       rejectUnauthorized: false,
     },
   });
-
-  await transporter.sendMail({
-    from: `"Orchivis Intern Hub" <${process.env.ADMIN_EMAIL}>`,
-    ...mailOptions,
-  });
+  try {
+    await transporter.sendMail({
+      from: `"Orchivis Intern Hub" <${process.env.ADMIN_EMAIL}>`,
+      ...mailOptions,
+    });
+  } catch (err) {
+    console.error("MAIL ERROR:", err);
+  }
 };
 
 module.exports = sendMail;

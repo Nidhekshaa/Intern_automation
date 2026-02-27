@@ -1,15 +1,18 @@
 const express = require("express");
-const multer = require("multer");
 const User = require("../models/User");
 const authMiddleware = require("../middleware/authmiddleware");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../cloudinary");
 
 const router = express.Router();
 
 // ===== MULTER FOR RESUME =====
-const storage = multer.diskStorage({
-  destination: "uploads/Resumes",
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "Resumes",
+    resource_type: "raw", // VERY IMPORTANT for PDF
   },
 });
 
@@ -21,7 +24,7 @@ const upload = multer({
     }
     cb(null, true);
   },
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+  limits: { fileSize: 2 * 1024 * 1024 },
 });
 
 // =======================================
@@ -93,7 +96,7 @@ router.put(
       }
 
       if (req.file) {
-        updates.resumeUrl = req.file.filename;
+        updates.resumeUrl = req.file.path;
       }
 
       await User.findByIdAndUpdate(req.userId, updates);

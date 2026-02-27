@@ -1,16 +1,23 @@
 const multer = require("multer");
-const path = require("path");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../cloudinary");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => {
+    let folder = "InternPortal";
+
     if (file.fieldname === "offerLetter") {
-    cb(null, "uploads/OfferLetters");
-    } else if(file.fieldname === "certificate") {
-      cb(null, "uploads/Certificates");
+      folder = "InternPortal/OfferLetters";
+    } else if (file.fieldname === "certificate") {
+      folder = "InternPortal/Certificates";
     }
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+
+    return {
+      folder,
+      resource_type: "raw", // IMPORTANT for PDF
+      format: "pdf",
+    };
   },
 });
 
